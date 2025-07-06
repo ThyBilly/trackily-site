@@ -1,0 +1,231 @@
+/* About Page Styles */
+
+/* Mission Banner Section */
+.mission-banner {
+    padding: 80px 0;
+    background-color: #455a74;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mission-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background-color: #e74c3c;
+    top: -150px;
+    left: -100px;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background-color: #ffffff;
+    bottom: -100px;
+    right: -50px;
+}
+
+.shape-3 {
+    width: 200px;
+    height: 200px;
+    background-color: #e74c3c;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+
+.mission-banner h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    position: relative;
+}
+
+.mission-banner h1:after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: #e74c3c;
+    margin: 20px auto 0;
+}
+
+.mission-text {
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.mission-text p {
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Team Section */
+.team-section {
+    padding: 80px 0;
+    background-color: #f8f8f8;
+}
+
+.team-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    color: #333;
+}
+
+.team-intro {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 50px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.team-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.team-photo {
+    height: 280px;
+    overflow: hidden;
+}
+
+.team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-photo img {
+    transform: scale(1.05);
+}
+
+.team-info {
+    padding: 20px;
+}
+
+.team-info h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.position {
+    color: #e74c3c;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.bio {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #e74c3c;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .mission-banner {
+        padding: 60px 0;
+    }
+    
+    .mission-banner h1 {
+        font-size: 2.5rem;
+    }
+    
+    .mission-text {
+        font-size: 1.1rem;
+        padding: 0 20px;
+    }
+    
+    .team-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mission-banner h1 {
+        font-size: 2rem;
+    }
+    
+    .team-photo {
+        height: 220px;
+    }
+    
+    .team-info h3 {
+        font-size: 1.2rem;
+    }
+}

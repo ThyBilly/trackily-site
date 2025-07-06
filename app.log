@@ -1,0 +1,248 @@
+INFO:app:A request reached initial
+INFO:app:this new
+INFO:app:None
+INFO:app:None
+INFO:app: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
+ERROR:app:Exception on /api/updates [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/interly-server/./app.py", line 54, in handle_stripe_webhook
+    event = stripe.Webhook.construct_event(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/stripe/_webhook.py", line 24, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/stripe/_webhook.py", line 73, in verify_header
+    expected_sig = cls._compute_signature(signed_payload, secret)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/stripe/_webhook.py", line 38, in _compute_signature
+    secret.encode("utf-8"),
+AttributeError: 'NoneType' object has no attribute 'encode'
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.93:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 21:40:30] "[33mGET / HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 21:40:31] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 21:40:35] "[33mGET /home HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 21:40:44] "[31m[1mGET /test HTTP/1.1[0m" 405 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\socia\\OneDrive\\Documents\\Projects\\interly-server\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.93:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:02:40] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\socia\\OneDrive\\Documents\\Projects\\interly-server\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.93:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:05:52] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:05:53] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:05:53] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:05:53] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:07:04] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:07:04] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:07:05] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:07:05] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:07:05] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\socia\\OneDrive\\Documents\\Projects\\interly-server\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug: * Detected change in 'c:\\Users\\socia\\OneDrive\\Documents\\Projects\\interly-server\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 131-183-544
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:09:06] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:09:06] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:09:07] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:09:07] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:09:07] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:16:18] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:16:18] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:16] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:17] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:17] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:17] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:17] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:18] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:20] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:43] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:17:44] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:19:26] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:19:26] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:20:53] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:20:53] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:21:13] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:21:14] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:21:15] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:21:19] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:08] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:08] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:11] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:14] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:35] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:35] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:38] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:24:41] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:09] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:11] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:15] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:15] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:20] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:25:24] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:46] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:47] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:47] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:47] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:47] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:48] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:57] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:26:58] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:00] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:01] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:08] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:08] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:10] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:11] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:25] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:27:26] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:28:05] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:28:05] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:28:07] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:28:11] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:36] "OPTIONS /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:36] "POST /api/auth/discord/callback HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:36] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:37] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:37] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:30:40] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:31:41] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:31:41] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:33:41] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:33:41] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:34:40] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:34:41] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:34:57] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:34:58] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:35:18] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:35:23] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:43:05] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:43:05] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:43:08] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:43:10] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:46:43] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:46:46] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:52:55] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:52:55] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:53:52] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:53:55] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:54:18] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:54:19] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:54:42] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:54:45] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:16] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:16] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:30] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:30] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:31] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:34] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:37] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:47] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:47] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:52] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:55] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:57] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:55:57] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:00] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:02] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:06] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:09] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:10] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:35] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:35] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:49] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:56:49] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:01] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:01] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:09] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:12] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:28] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:29] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:30] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:32] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:41] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:57:41] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:03] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:04] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:19] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:20] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:21] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:24] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:42] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:43] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:44] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:58:48] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:07] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:07] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:16] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:16] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:18] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 22:59:22] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:00:51] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:00:52] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:01:38] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:01:39] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:01:40] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:01:44] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:02:01] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:02:01] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:02:04] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:02:08] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:04:44] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:04:44] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:04:47] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:04:47] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:05:18] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:05:22] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:09:15] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:09:15] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:10:49] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:10:50] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:10:52] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:10:57] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:11:43] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:11:43] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:11:44] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:11:47] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:12:18] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:12:18] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:12:31] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:12:34] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:14:50] "OPTIONS /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:14:50] "GET /api/auth/validate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:14:50] "OPTIONS /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Nov/2024 23:14:52] "GET /api/guilds HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\socia\\OneDrive\\Documents\\Projects\\interly-server\\guessly-server\\wsgi.py', reloading
+INFO:werkzeug: * Restarting with stat

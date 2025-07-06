@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Premium - StockWatch</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        /* Sidebar - Same as other pages */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #e74c3c;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #e74c3c;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .subscription-status {
+            margin: 1rem 2rem;
+            padding: 1rem;
+            background: rgba(231, 76, 60, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            text-align: center;
+        }
+
+        .subscription-status.premium {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .page-title i {
+            color: #e74c3c;
+        }
+
+        .page-subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        /* Current Subscription Card */
+        .current-subscription {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .subscription-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-plan-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-plan-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .badge-free {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .badge-premium {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .badge-unlimited {
+            background: linear-gradient(45deg, #8e44ad, #9b59b6);
+            color: white;
+        }
+
+        .subscription-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Main Plan Selection Card */
+        .plan-selection-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Plan Type Selection */
+        .plan-type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .plan-option {
+            padding: 1.5rem;
+            border: 3px solid #ecf0f1;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .plan-option:hover {
+            border-color: #3498db;
+            background: #f8fafe;
+        }
+
+        .plan-option.selected {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), rgba(231, 76, 60, 0.1));
+        }
+
+        .plan-option.popular::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-icon.pay-go {
+            color: #3498db;
+        }
+
+        .plan-icon.unlimited {
+            color: #e74c3c;
+        }
+
+        .plan-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .plan-price.pay-go {
+            color: #3498db;
+        }
+
+        .plan-price.unlimited {
+            color: #e74c3c;
+        }
+
+        .plan-period {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Product Count Selector */
+        .product-count-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+            text-align: center;
+        }
+
+        .product-count-section.show {
+            display: block;
+        }
+
+        .product-count-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .product-count-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .count-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .count-btn:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .count-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .count-display {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .price-calculation {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* AI Enhancement Section */
+        .ai-enhancement {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-enhancement::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .ai-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ai-icon {
+            font-size: 1.8rem;
+        }
+
+        .ai-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .ai-details p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .ai-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .ai-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: rgba(46, 204, 113, 0.8);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        /* Checkout Section */
+        .checkout-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            display: none;
+        }
+
+        .checkout-section.show {
+            display: block;
+        }
+
+        .checkout-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-summary {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .summary-row.total {
+            font-weight: bold;
+            font-size: 1.3rem;
+            border-top: 2px solid #ddd;
+            padding-top: 0.5rem;
+            margin-top: 1rem;
+            color: #e74c3c;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: none;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .plan-type-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .subscription-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .product-count-selector {
+                flex-wrap: wrap;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                StockWatch
+            </a>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/tracking" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Price Tracking</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/premium" class="nav-link active">
+                    <i class="fas fa-crown"></i>
+                    <span>Manage Premium</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="subscription-status" id="subscriptionStatus">
+            <div><strong id="sidebarPlanName">Loading...</strong></div>
+            <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                <span id="sidebarProductCount">0</span>/<span id="sidebarMaxProducts">2</span> products tracked
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-crown"></i>
+                Manage Premium
+            </h1>
+            <p class="page-subtitle">Choose the perfect plan for your needs</p>
+        </div>
+
+        <!-- Message Area -->
+        <div class="message" id="messageArea">
+            <span id="messageText"></span>
+        </div>
+
+        <!-- Current Subscription Status -->
+        <div class="current-subscription" id="currentSubscription">
+            <div class="subscription-header">
+                <div class="current-plan-name" id="currentPlanName">Loading...</div>
+                <div class="current-plan-badge" id="currentPlanBadge">Loading</div>
+                <p id="currentPlanDescription">Please wait while we load your subscription details...</p>
+            </div>
+
+            <div class="subscription-stats" id="subscriptionStats">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Plan Selection -->
+        <div class="plan-selection-card">
+            <div class="card-header">
+                <h2 class="card-title">Choose Your Plan</h2>
+                <p class="card-subtitle">Select the plan that fits your product tracking needs</p>
+            </div>
+
+            <!-- Plan Type Selection -->
+            <div class="plan-type-selector">
+                <div class="plan-option" data-plan="pay_as_you_go" onclick="selectPlan('pay_as_you_go')">
+                    <div class="plan-icon pay-go">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="plan-name">Pay-as-you-go</div>
+                    <div class="plan-price pay-go">$5</div>
+                    <div class="plan-period">per product / month</div>
+                </div>
+
+                <div class="plan-option popular" data-plan="unlimited" onclick="selectPlan('unlimited')">
+                    <div class="plan-icon unlimited">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <div class="plan-name">Unlimited Access</div>
+                    <div class="plan-price unlimited">$145</div>
+                    <div class="plan-period">per month</div>
+                </div>
+            </div>
+
+            <!-- Product Count Selection -->
+            <div class="product-count-section" id="productCountSection">
+                <div class="product-count-title">How many products do you want to track?</div>
+                <div class="product-count-selector">
+                    <button class="count-btn" onclick="changeProductCount(-1)">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <div class="count-display" id="productCountDisplay">5</div>
+                    <button class="count-btn" onclick="changeProductCount(1)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="price-calculation" id="priceCalculation">
+                    Total: $25/month for 5 products
+                </div>
+            </div>
+
+            <!-- AI Enhancement -->
+            <div class="ai-enhancement">
+                <div class="ai-header">
+                    <div class="ai-info">
+                        <i class="fas fa-robot ai-icon"></i>
+                        <div class="ai-details">
+                            <h3>AI Enhancement Add-on</h3>
+                            <p>Enhanced tracking with ChatGPT, Claude AI & others as failsafe</p>
+                        </div>
+                    </div>
+                    <div class="ai-price">+$50/month</div>
+                </div>
+                <div class="ai-toggle">
+                    <span>Include AI Enhancement</span>
+                    <div class="toggle-switch" id="aiToggle" onclick="toggleAI()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Section -->
+        <div class="checkout-section" id="checkoutSection">
+            <h2 class="checkout-title">Summary</h2>
+            <div class="checkout-summary" id="checkoutSummary">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckout()">
+                <i class="fas fa-credit-card"></i> Proceed to Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        const API_BASE_URL = window.location.origin + '/api';
+        let currentSubscription = null;
+        let selectedPlan = null;
+        let productCount = 5;
+        let includeAI = false;
+        let stripe = null;
+
+        // Initialize Stripe
+        if (typeof Stripe !== 'undefined') {
+            stripe = Stripe('pk_test_...'); // Replace with your Stripe publishable key
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentSubscription();
+            
+            // Check for successful checkout
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            if (sessionId) {
+                handleCheckoutSuccess(sessionId);
+            }
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // Load current subscription information
+        async function loadCurrentSubscription() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/premium/subscription`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    currentSubscription = data.subscription;
+                    updateCurrentSubscriptionDisplay();
+                    updateSidebarStatus();
+                } else {
+                    throw new Error('Failed to load subscription');
+                }
+            } catch (error) {
+                console.error('Load subscription error:', error);
+                showMessage('Failed to load subscription information', 'error');
+            }
+        }
+
+        // Update current subscription display
+        function updateCurrentSubscriptionDisplay() {
+            if (!currentSubscription) return;
+
+            const planNameElement = document.getElementById('currentPlanName');
+            const planDescriptionElement = document.getElementById('currentPlanDescription');
+            const planBadgeElement = document.getElementById('currentPlanBadge');
+            const subscriptionStatsElement = document.getElementById('subscriptionStats');
+
+            // Update plan name and description
+            planNameElement.textContent = currentSubscription.plan_name;
+            
+            let description = '';
+            if (currentSubscription.plan_type === 'free') {
+                description = `You're currently on the free plan with ${currentSubscription.max_products} product tracking limit.`;
+            } else if (currentSubscription.plan_type === 'pay_as_you_go') {
+                description = `You can track up to ${currentSubscription.max_products} products for $${currentSubscription.price_per_month}/month.`;
+            } else if (currentSubscription.plan_type === 'unlimited') {
+                description = `You have unlimited product tracking for $${currentSubscription.price_per_month}/month.`;
+            }
+            planDescriptionElement.textContent = description;
+
+            // Update badge
+            planBadgeElement.className = 'current-plan-badge';
+            if (currentSubscription.plan_type === 'free') {
+                planBadgeElement.classList.add('badge-free');
+                planBadgeElement.textContent = 'FREE';
+            } else if (currentSubscription.plan_type === 'pay_as_you_go') {
+                planBadgeElement.classList.add('badge-premium');
+                planBadgeElement.textContent = 'PAY-AS-YOU-GO';
+            } else if (currentSubscription.plan_type === 'unlimited') {
+                planBadgeElement.classList.add('badge-unlimited');
+                planBadgeElement.textContent = 'UNLIMITED';
+            }
+
+            // Update subscription stats
+            subscriptionStatsElement.innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${currentSubscription.current_products_count}</div>
+                    <div class="stat-label">Products Tracked</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${currentSubscription.max_products === -1 ? '∞' : currentSubscription.max_products}</div>
+                    <div class="stat-label">Max Products</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">$${currentSubscription.price_per_month}</div>
+                    <div class="stat-label">Monthly Cost</div>
+                </div>
+            `;
+        }
+
+        // Update sidebar status
+        function updateSidebarStatus() {
+            if (!currentSubscription) return;
+
+            const sidebarPlanName = document.getElementById('sidebarPlanName');
+            const sidebarProductCount = document.getElementById('sidebarProductCount');
+            const sidebarMaxProducts = document.getElementById('sidebarMaxProducts');
+            const subscriptionStatus = document.getElementById('subscriptionStatus');
+
+            sidebarPlanName.textContent = currentSubscription.plan_name;
+            sidebarProductCount.textContent = currentSubscription.current_products_count;
+            sidebarMaxProducts.textContent = currentSubscription.max_products === -1 ? '∞' : currentSubscription.max_products;
+
+            if (currentSubscription.plan_type !== 'free') {
+                subscriptionStatus.classList.add('premium');
+            } else {
+                subscriptionStatus.classList.remove('premium');
+            }
+        }
+
+        // Plan selection
+        function selectPlan(planType) {
+            // Remove previous selection
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Add selection to clicked plan
+            const planOption = document.querySelector(`[data-plan="${planType}"]`);
+            planOption.classList.add('selected');
+
+            selectedPlan = planType;
+
+            // Show/hide product count section
+            const productCountSection = document.getElementById('productCountSection');
+            if (planType === 'pay_as_you_go') {
+                productCountSection.classList.add('show');
+                updatePriceCalculation();
+            } else {
+                productCountSection.classList.remove('show');
+            }
+
+            updateCheckoutSummary();
+        }
+
+        // Product count management
+        function changeProductCount(delta) {
+            const newCount = productCount + delta;
+            if (newCount >= 1 && newCount <= 100) {
+                productCount = newCount;
+                document.getElementById('productCountDisplay').textContent = productCount;
+                updatePriceCalculation();
+                updateCheckoutSummary();
+            }
+        }
+
+        function updatePriceCalculation() {
+            const totalPrice = productCount * 5;
+            document.getElementById('priceCalculation').textContent = 
+                `Total: $${totalPrice}/month for ${productCount} product${productCount !== 1 ? 's' : ''}`;
+        }
+
+        // Toggle AI enhancement
+        function toggleAI() {
+            const aiToggle = document.getElementById('aiToggle');
+            includeAI = !includeAI;
+            
+            if (includeAI) {
+                aiToggle.classList.add('active');
+            } else {
+                aiToggle.classList.remove('active');
+            }
+            
+            updateCheckoutSummary();
+        }
+
+        // Update checkout summary
+        function updateCheckoutSummary() {
+            if (!selectedPlan) {
+                document.getElementById('checkoutSection').classList.remove('show');
+                return;
+            }
+
+            const checkoutSection = document.getElementById('checkoutSection');
+            const checkoutSummary = document.getElementById('checkoutSummary');
+
+            let planPrice = 0;
+            let planName = '';
+
+            if (selectedPlan === 'pay_as_you_go') {
+                planPrice = productCount * 5;
+                planName = `Pay-as-you-go (${productCount} products)`;
+            } else if (selectedPlan === 'unlimited') {
+                planPrice = 145;
+                planName = 'Unlimited Access';
+            }
+
+            const aiPrice = includeAI ? 50 : 0;
+            const totalPrice = planPrice + aiPrice;
+
+            let summaryHTML = `
+                <div class="summary-row">
+                    <span>${planName}</span>
+                    <span>$${planPrice.toFixed(2)}/month</span>
+                </div>
+            `;
+
+            if (includeAI) {
+                summaryHTML += `
+                    <div class="summary-row">
+                        <span>AI Enhancement Add-on</span>
+                        <span>$${aiPrice.toFixed(2)}/month</span>
+                    </div>
+                `;
+            }
+
+            summaryHTML += `
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$${totalPrice.toFixed(2)}/month</span>
+                </div>
+            `;
+
+            checkoutSummary.innerHTML = summaryHTML;
+            checkoutSection.classList.add('show');
+        }
+
+        // Proceed to checkout
+        async function proceedToCheckout() {
+            if (!selectedPlan) {
+                showMessage('Please select a plan first', 'error');
+                return;
+            }
+
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/premium/create-checkout-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        plan_type: selectedPlan,
+                        custom_product_count: selectedPlan === 'pay_as_you_go' ? productCount : null,
+                        include_ai_enhancement: includeAI
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Redirect to Stripe Checkout
+                    window.location.href = data.checkout_url;
+                } else {
+                    throw new Error(data.error || 'Failed to create checkout session');
+                }
+            } catch (error) {
+                console.error('Checkout error:', error);
+                showMessage(error.message, 'error');
+            } finally {
+                checkoutBtn.disabled = false;
+                checkoutBtn.innerHTML = '<i class="fas fa-credit-card"></i> Proceed to Payment';
+            }
+        }
+
+        // Handle successful checkout
+        async function handleCheckoutSuccess(sessionId) {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/premium/process-success`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        session_id: sessionId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Subscription activated successfully!', 'success');
+                    // Remove session_id from URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    // Reload subscription info
+                    setTimeout(() => {
+                        loadCurrentSubscription();
+                    }, 1000);
+                } else {
+                    throw new Error(data.error || 'Failed to process subscription');
+                }
+            } catch (error) {
+                console.error('Process success error:', error);
+                showMessage('There was an issue processing your subscription. Please contact support.', 'error');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageArea = document.getElementById('messageArea');
+            const messageText = document.getElementById('messageText');
+            
+            messageText.textContent = text;
+            messageArea.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                messageArea.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

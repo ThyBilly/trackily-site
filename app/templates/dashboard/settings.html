@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - StockWatch</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        /* Sidebar - Same as other pages */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #e74c3c;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #e74c3c;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title i {
+            color: #e74c3c;
+        }
+
+        .page-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Settings Sections */
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .settings-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-item:hover {
+            border-color: #3498db;
+            background: #f8fafe;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+        }
+
+        .setting-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        .setting-control {
+            margin-left: 1rem;
+        }
+
+        /* Form Controls */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #27ae60;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .select-field {
+            width: 200px;
+            padding: 8px 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-field:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        /* Discord Webhook Section */
+        .webhook-section {
+            background: linear-gradient(135deg, #7289da, #5865f2);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .webhook-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .webhook-header i {
+            font-size: 2rem;
+        }
+
+        .webhook-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .webhook-subtitle {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .webhook-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .webhook-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .webhook-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .webhook-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .test-webhook-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .test-webhook-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .webhook-help {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .webhook-help a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Phone Number Section */
+        .phone-section {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .phone-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .phone-header i {
+            font-size: 2rem;
+        }
+
+        .phone-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .phone-subtitle {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phone-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .phone-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .phone-help {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Save Button */
+        .save-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .save-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .setting-control {
+                margin-left: 0;
+                text-align: center;
+            }
+
+            .webhook-input-group, .phone-input-group {
+                flex-direction: column;
+            }
+
+            .select-field {
+                width: 100%;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                StockWatch
+            </a>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/tracking" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Price Tracking</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/settings" class="nav-link active">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/premium" class="nav-link">
+                    <i class="fas fa-crown"></i>
+                    <span>Manage Premium</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-cog"></i>
+                Settings
+            </h1>
+            <p class="page-subtitle">Customize your StockWatch experience and notification preferences</p>
+        </div>
+
+        <!-- Message Area -->
+        <div class="message" id="messageArea">
+            <span id="messageText"></span>
+        </div>
+
+        <!-- Phone Number Section -->
+        <div class="phone-section">
+            <div class="phone-header">
+                <i class="fas fa-mobile-alt"></i>
+                <div>
+                    <div class="phone-title">SMS Notifications</div>
+                </div>
+            </div>
+            <div class="phone-subtitle">
+                Get instant stock alerts via text message to your phone
+            </div>
+            <div class="phone-input-group">
+                <input type="tel" class="phone-input" id="phoneNumber" 
+                       placeholder="+1 (555) 123-4567">
+            </div>
+            <div class="phone-help">
+                <strong>Format:</strong> Enter your phone number with country code<br>
+                Standard SMS rates may apply based on your carrier plan<br>
+                You can enable/disable SMS alerts for individual products
+            </div>
+        </div>
+
+        <!-- Discord Webhook Section -->
+        <div class="webhook-section">
+            <div class="webhook-header">
+                <i class="fab fa-discord"></i>
+                <div>
+                    <div class="webhook-title">Discord Notifications</div>
+                </div>
+            </div>
+            <div class="webhook-subtitle">
+                Get instant stock alerts directly in your Discord server
+            </div>
+            <div class="webhook-input-group">
+                <input type="url" class="webhook-input" id="discordWebhook" 
+                       placeholder="https://discord.com/api/webhooks/...">
+                <button class="test-webhook-btn" onclick="testWebhook()">
+                    <i class="fas fa-paper-plane"></i> Test
+                </button>
+            </div>
+            <div class="webhook-help">
+                <strong>How to get a webhook URL:</strong><br>
+                1. Go to your Discord server settings → Integrations → Webhooks<br>
+                2. Create a new webhook or copy an existing one<br>
+                3. Paste the URL above to receive stock alerts in that channel
+            </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+            <h3 class="section-title">
+                <i class="fas fa-bell"></i>
+                Notification Settings
+            </h3>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Email Notifications</div>
+                        <div class="setting-description">Receive stock alerts and updates via email</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'email_notifications')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">SMS Notifications</div>
+                        <div class="setting-description">Enable text message notifications (requires phone number)</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'sms_notifications')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Price Drop Alerts</div>
+                        <div class="setting-description">Get notified when product prices decrease</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'price_drop_alerts')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Restock Alerts</div>
+                        <div class="setting-description">Get notified when out-of-stock items become available</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'restock_alerts')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Price Increase Alerts</div>
+                        <div class="setting-description">Get notified when product prices increase</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'price_increase_alerts')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Notification Frequency</div>
+                        <div class="setting-description">How often you want to receive notifications</div>
+                    </div>
+                    <div class="setting-control">
+                        <select class="select-field" id="notificationFrequency">
+                            <option value="instant">Instant</option>
+                            <option value="hourly">Hourly</option>
+                            <option value="daily">Daily</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Settings -->
+        <div class="settings-section">
+            <h3 class="section-title">
+                <i class="fas fa-desktop"></i>
+                Dashboard Settings
+            </h3>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Theme</div>
+                        <div class="setting-description">Choose your preferred dashboard theme</div>
+                    </div>
+                    <div class="setting-control">
+                        <select class="select-field" id="dashboardTheme">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="auto">Auto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Items Per Page</div>
+                        <div class="setting-description">Number of products to show per page</div>
+                    </div>
+                    <div class="setting-control">
+                        <select class="select-field" id="itemsPerPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Default Currency</div>
+                        <div class="setting-description">Currency to display prices in</div>
+                    </div>
+                    <div class="setting-control">
+                        <select class="select-field" id="defaultCurrency">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="settings-section">
+            <h3 class="section-title">
+                <i class="fas fa-shield-alt"></i>
+                Privacy Settings
+            </h3>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Share Usage Data</div>
+                        <div class="setting-description">Help improve StockWatch by sharing anonymous usage data</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'share_data')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Public Profile</div>
+                        <div class="setting-description">Allow others to see your public tracking statistics</div>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch" onclick="toggleSetting(this, 'public_profile')">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Section -->
+        <div class="save-section">
+            <button class="save-btn" onclick="saveSettings()" id="saveBtn">
+                <i class="fas fa-save"></i> Save Settings
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API base URL and settings storage
+        const API_BASE_URL = window.location.origin + '/api';
+        let currentSettings = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        function toggleSetting(element, settingName) {
+            element.classList.toggle('active');
+            currentSettings[settingName] = element.classList.contains('active');
+        }
+
+        async function loadSettings() {
+            const token = localStorage.getItem('accessToken');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/settings`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const settings = await response.json();
+                    currentSettings = settings;
+                    populateSettings(settings);
+                } else {
+                    throw new Error('Failed to load settings');
+                }
+            } catch (error) {
+                console.error('Settings load error:', error);
+                showMessage('Failed to load settings', 'error');
+                populateSettings({}); // Load defaults
+            }
+        }
+
+        function populateSettings(settings) {
+            // Discord webhook
+            document.getElementById('discordWebhook').value = settings.discord_webhook_url || '';
+            
+            // Phone number
+            document.getElementById('phoneNumber').value = settings.phone_number || '';
+            
+            // Toggle switches
+            setToggleState('email_notifications', settings.email_notifications !== false);
+            setToggleState('sms_notifications', settings.sms_notifications || false);
+            setToggleState('price_drop_alerts', settings.price_drop_alerts !== false);
+            setToggleState('restock_alerts', settings.restock_alerts !== false);
+            setToggleState('price_increase_alerts', settings.price_increase_alerts || false);
+            setToggleState('share_data', settings.share_data || false);
+            setToggleState('public_profile', settings.public_profile || false);
+            
+            // Select fields
+            document.getElementById('notificationFrequency').value = settings.notification_frequency || 'instant';
+            document.getElementById('dashboardTheme').value = settings.dashboard_theme || 'light';
+            document.getElementById('itemsPerPage').value = settings.items_per_page || 10;
+            document.getElementById('defaultCurrency').value = settings.default_currency || 'USD';
+        }
+
+        function setToggleState(settingName, isActive) {
+            const toggles = document.querySelectorAll('.toggle-switch');
+            toggles.forEach(toggle => {
+                const onclick = toggle.getAttribute('onclick');
+                if (onclick && onclick.includes(settingName)) {
+                    if (isActive) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                    currentSettings[settingName] = isActive;
+                }
+            });
+        }
+
+        function formatPhoneNumber(value) {
+            // Remove all non-digits
+            const phoneNumber = value.replace(/\D/g, '');
+            
+            // Format based on length
+            if (phoneNumber.length <= 3) {
+                return phoneNumber;
+            } else if (phoneNumber.length <= 6) {
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+            } else if (phoneNumber.length <= 10) {
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+            } else {
+                return `+${phoneNumber.slice(0, phoneNumber.length - 10)} (${phoneNumber.slice(-10, -7)}) ${phoneNumber.slice(-7, -4)}-${phoneNumber.slice(-4)}`;
+            }
+        }
+
+        // Format phone number as user types
+        document.getElementById('phoneNumber').addEventListener('input', function(e) {
+            const formatted = formatPhoneNumber(e.target.value);
+            e.target.value = formatted;
+        });
+
+        async function saveSettings() {
+            const saveBtn = document.getElementById('saveBtn');
+            const token = localStorage.getItem('accessToken');
+            
+            // Gather all settings
+            const settingsData = {
+                ...currentSettings,
+                discord_webhook_url: document.getElementById('discordWebhook').value.trim(),
+                phone_number: document.getElementById('phoneNumber').value.trim(),
+                notification_frequency: document.getElementById('notificationFrequency').value,
+                dashboard_theme: document.getElementById('dashboardTheme').value,
+                items_per_page: parseInt(document.getElementById('itemsPerPage').value),
+                default_currency: document.getElementById('defaultCurrency').value
+            };
+
+            // Validate Discord webhook URL
+            const webhookUrl = settingsData.discord_webhook_url;
+            if (webhookUrl && !webhookUrl.startsWith('https://discord.com/api/webhooks/') && 
+                !webhookUrl.startsWith('https://discordapp.com/api/webhooks/')) {
+                showMessage('Invalid Discord webhook URL format', 'error');
+                return;
+            }
+
+            // Validate phone number if SMS is enabled
+            if (settingsData.sms_notifications && !settingsData.phone_number) {
+                showMessage('Phone number is required for SMS notifications', 'error');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/settings`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(settingsData)
+                });
+
+                if (response.ok) {
+                    showMessage('Settings saved successfully!', 'success');
+                } else {
+                    const result = await response.json();
+                    throw new Error(result.error || 'Failed to save settings');
+                }
+            } catch (error) {
+                console.error('Save settings error:', error);
+                showMessage(error.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Settings';
+            }
+        }
+
+        async function testWebhook() {
+            const webhookUrl = document.getElementById('discordWebhook').value.trim();
+            
+            if (!webhookUrl) {
+                showMessage('Please enter a Discord webhook URL first', 'error');
+                return;
+            }
+
+            if (!webhookUrl.startsWith('https://discord.com/api/webhooks/') && 
+                !webhookUrl.startsWith('https://discordapp.com/api/webhooks/')) {
+                showMessage('Invalid Discord webhook URL format', 'error');
+                return;
+            }
+
+            try {
+                const testMessage = {
+                    embeds: [{
+                        title: "🧪 StockWatch Test Notification",
+                        description: "Your Discord webhook is working correctly! You'll receive stock alerts like this.",
+                        color: 3447003, // Blue color
+                        timestamp: new Date().toISOString(),
+                        footer: {
+                            text: "StockWatch"
+                        }
+                    }]
+                };
+
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testMessage)
+                });
+
+                if (response.ok) {
+                    showMessage('Test message sent to Discord successfully!', 'success');
+                } else {
+                    throw new Error('Failed to send test message');
+                }
+            } catch (error) {
+                console.error('Webhook test error:', error);
+                showMessage('Failed to send test message. Please check your webhook URL.', 'error');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageArea = document.getElementById('messageArea');
+            const messageText = document.getElementById('messageText');
+            
+            messageText.textContent = text;
+            messageArea.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                messageArea.classList.remove('show');
+            }, 5000);
+        }
+
+        // Update current settings when selects change
+        document.getElementById('notificationFrequency').addEventListener('change', function() {
+            currentSettings.notification_frequency = this.value;
+        });
+
+        document.getElementById('dashboardTheme').addEventListener('change', function() {
+            currentSettings.dashboard_theme = this.value;
+        });
+
+        document.getElementById('itemsPerPage').addEventListener('change', function() {
+            currentSettings.items_per_page = parseInt(this.value);
+        });
+
+        document.getElementById('defaultCurrency').addEventListener('change', function() {
+            currentSettings.default_currency = this.value;
+        });
+    </script>
+</body>
+</html>

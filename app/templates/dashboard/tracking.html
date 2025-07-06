@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Tracking - StockWatch</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        /* Sidebar - Same as other pages */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #e74c3c;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #e74c3c;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .subscription-status {
+            margin: 1rem 2rem;
+            padding: 1rem;
+            background: rgba(231, 76, 60, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            text-align: center;
+        }
+
+        .subscription-status.premium {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .upgrade-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title i {
+            color: #e74c3c;
+        }
+
+        .page-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Add URL Section */
+        .add-url-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .url-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .url-input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .url-input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .add-url-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .add-url-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .add-url-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .url-hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        /* Discord Webhook Section in Add Product */
+        .discord-section {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #7289da, #5865f2);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .discord-section h4 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .discord-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .discord-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .discord-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .discord-help {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        /* URL List Section */
+        .url-list-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .pagination-info {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .url-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .url-item {
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .url-item:nth-child(odd) {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .url-item:nth-child(even) {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+            color: #2c3e50;
+            border-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .url-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .url-item.selected {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .url-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .url-info {
+            flex: 1;
+        }
+
+        .url-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        .url-link {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            word-break: break-all;
+            margin-bottom: 0.5rem;
+        }
+
+        .url-discord {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .url-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.in-stock {
+            background: #27ae60;
+        }
+
+        .status-dot.out-of-stock {
+            background: #e74c3c;
+        }
+
+        .status-dot.checking {
+            background: #f39c12;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.error {
+            background: #e74c3c;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .url-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .edit-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .url-item:nth-child(even) .edit-btn {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: rgba(52, 152, 219, 0.3);
+            color: #3498db;
+        }
+
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .edit-btn.active {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        .url-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .url-item:nth-child(even) .url-stats {
+            border-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Premium Limit Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .premium-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .premium-modal {
+            transform: scale(1);
+        }
+
+        .premium-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+        }
+
+        .premium-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .premium-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .premium-features {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .premium-features h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .premium-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .premium-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .premium-features li i {
+            color: #27ae60;
+            width: 16px;
+        }
+
+        .premium-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .upgrade-premium-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .upgrade-premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+        }
+
+        .close-modal-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        /* Price Settings Panel - Enhanced */
+        .price-settings {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .price-settings.show {
+            display: block;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-url {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            word-break: break-all;
+        }
+
+        .price-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-input-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .price-input-group input {
+            padding: 12px 16px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .price-input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .price-input-help {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 0.3rem;
+        }
+
+        /* Discord Webhook in Settings Panel */
+        .discord-webhook-section {
+            background: linear-gradient(135deg, #7289da, #5865f2);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .discord-webhook-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .discord-webhook-header i {
+            font-size: 1.5rem;
+        }
+
+        .discord-webhook-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .discord-webhook-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .discord-webhook-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .discord-webhook-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .discord-webhook-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .test-discord-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .test-discord-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .discord-webhook-help {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .save-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #bdc3c7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .empty-state p {
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Loading state */
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .url-input-group {
+                flex-direction: column;
+            }
+
+            .add-url-btn {
+                width: 100%;
+            }
+
+            .url-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .url-actions {
+                align-self: stretch;
+                justify-content: space-between;
+            }
+
+            .price-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-actions {
+                justify-content: stretch;
+            }
+
+            .settings-actions button {
+                flex: 1;
+            }
+
+            .discord-webhook-input-group {
+                flex-direction: column;
+            }
+
+            .premium-modal {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .premium-actions {
+                flex-direction: column;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                StockWatch
+            </a>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/tracking" class="nav-link active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Price Tracking</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/dashboard/premium" class="nav-link">
+                    <i class="fas fa-crown"></i>
+                    <span>Manage Premium</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="subscription-status" id="subscriptionStatus">
+            <div><strong id="planName">Free Plan</strong></div>
+            <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                <span id="productCount">0</span>/<span id="maxProducts">2</span> products tracked
+            </div>
+            <a href="/dashboard/premium" class="upgrade-btn" id="upgradeBtn">Upgrade to Premium</a>
+        </div>
+    </div>
+
+    <!-- Premium Limit Modal -->
+    <div class="modal-overlay" id="premiumModal">
+        <div class="premium-modal">
+            <div class="premium-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h2 class="premium-title">Upgrade to Premium</h2>
+            <p class="premium-subtitle">
+                You've reached your product tracking limit! Upgrade to continue monitoring more products and unlock premium features.
+            </p>
+            <div class="premium-features">
+                <h4>Premium Benefits</h4>
+                <ul>
+                    <li><i class="fas fa-check"></i> Track unlimited products</li>
+                    <li><i class="fas fa-check"></i> Advanced AI-powered tracking</li>
+                    <li><i class="fas fa-check"></i> Priority customer support</li>
+                    <li><i class="fas fa-check"></i> Custom Discord webhooks</li>
+                    <li><i class="fas fa-check"></i> Advanced price analytics</li>
+                </ul>
+            </div>
+            <div class="premium-actions">
+                <a href="/dashboard/premium" class="upgrade-premium-btn">
+                    <i class="fas fa-crown"></i> Choose Your Plan
+                </a>
+                <button class="close-modal-btn" onclick="closePremiumModal()">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-chart-line"></i>
+                Price Tracking
+            </h1>
+            <p class="page-subtitle">Monitor price changes and set alerts for your favorite products</p>
+        </div>
+
+        <!-- Message Area -->
+        <div class="message" id="messageArea">
+            <span id="messageText"></span>
+        </div>
+
+        <!-- Add URL Section -->
+        <div class="add-url-section">
+            <h3 class="section-title">
+                <i class="fas fa-plus"></i>
+                Add Product URL
+            </h3>
+            <div class="url-input-group">
+                <input type="url" id="urlInput" placeholder="Enter product URL (e.g., https://amazon.com/product/...)" maxlength="1000">
+                <button class="add-url-btn" onclick="addURL()" id="addBtn">
+                    <i class="fas fa-plus"></i> Add URL
+                </button>
+            </div>
+            <div class="url-hint">
+                Supported sites: Amazon, eBay, Best Buy, Target, Walmart, and many more
+            </div>
+
+            <!-- Discord Webhook for New Product -->
+            <div class="discord-section">
+                <h4><i class="fab fa-discord"></i> Discord Notifications (Optional)</h4>
+                <input type="url" id="discordWebhookInput" class="discord-input" 
+                       placeholder="https://discord.com/api/webhooks/...">
+                <div class="discord-help">
+                    Set a specific Discord channel for this product's alerts. Leave empty to use global settings.
+                </div>
+            </div>
+
+            <!-- SMS Notifications Toggle -->
+            <div class="sms-section" style="margin-top: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: white; cursor: pointer;">
+                    <input type="checkbox" id="smsNotificationsInput" style="width: 18px; height: 18px; cursor: pointer;">
+                    <i class="fas fa-sms"></i>
+                    <span style="font-weight: 600;">Enable SMS Notifications</span>
+                </label>
+                <div style="font-size: 0.85rem; opacity: 0.9; margin-top: 0.5rem;">
+                    Send text message alerts for this product (requires phone number in settings)
+                </div>
+            </div>
+            
+        <!-- URL List Section -->
+        <div class="url-list-section">
+            <div class="list-header">
+                <h3 class="section-title">
+                    <i class="fas fa-list"></i>
+                    Tracked Products
+                </h3>
+                <div class="pagination-info" id="paginationInfo">
+                    Loading products...
+                </div>
+            </div>
+
+            <div id="urlContainer">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading your tracked products...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Settings Panel -->
+        <div class="price-settings" id="priceSettings">
+            <div class="settings-header">
+                <div>
+                    <h3 class="settings-title">Product Settings</h3>
+                    <div class="settings-url" id="settingsUrl">No product selected</div>
+                </div>
+            </div>
+
+            <!-- Discord Webhook Section -->
+            <div class="discord-webhook-section">
+                <div class="discord-webhook-header">
+                    <i class="fab fa-discord"></i>
+                    <div class="discord-webhook-title">Discord Notifications</div>
+                </div>
+                <div class="discord-webhook-input-group">
+                    <input type="url" class="discord-webhook-input" id="productDiscordWebhook" 
+                           placeholder="https://discord.com/api/webhooks/...">
+                    <button class="test-discord-btn" onclick="testProductWebhook()">
+                        <i class="fas fa-paper-plane"></i> Test
+                    </button>
+                </div>
+                <div class="discord-webhook-help">
+                    Set a Discord channel specifically for this product's alerts. Leave empty to use global Discord settings.
+                </div>
+            </div>
+
+            <div class="price-inputs">
+                <div class="price-input-group">
+                    <label for="minPrice">Minimum Price Alert</label>
+                    <input type="number" id="minPrice" placeholder="0.00" step="0.01" min="0">
+                    <div class="price-input-help">Get alerted when price drops below this amount</div>
+                </div>
+                <div class="price-input-group">
+                    <label for="maxPrice">Maximum Price Alert</label>
+                    <input type="number" id="maxPrice" placeholder="999.99" step="0.01" min="0">
+                    <div class="price-input-help">Get alerted when price goes above this amount</div>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button class="cancel-btn" onclick="cancelSettings()">Cancel</button>
+                <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API base URL and data storage
+        const API_BASE_URL = window.location.origin + '/api';
+        let trackedProducts = [];
+        let selectedProductId = null;
+        let userSubscriptionInfo = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserSubscriptionInfo();
+            loadTrackedProducts();
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // Load user subscription information
+        async function loadUserSubscriptionInfo() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/premium/subscription`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    userSubscriptionInfo = data.subscription;
+                    updateSubscriptionStatus();
+                } else {
+                    console.error('Failed to load subscription info');
+                }
+            } catch (error) {
+                console.error('Load subscription error:', error);
+            }
+        }
+
+        // Update subscription status in sidebar
+        function updateSubscriptionStatus() {
+            if (!userSubscriptionInfo) return;
+
+            const planNameElement = document.getElementById('planName');
+            const maxProductsElement = document.getElementById('maxProducts');
+            const subscriptionStatusElement = document.getElementById('subscriptionStatus');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+
+            planNameElement.textContent = userSubscriptionInfo.plan_name;
+            
+            if (userSubscriptionInfo.max_products === -1) {
+                maxProductsElement.textContent = '∞';
+            } else {
+                maxProductsElement.textContent = userSubscriptionInfo.max_products;
+            }
+
+            // Update subscription status styling
+            if (userSubscriptionInfo.plan_type !== 'free') {
+                subscriptionStatusElement.classList.add('premium');
+                upgradeBtn.textContent = 'Manage Premium';
+            } else {
+                subscriptionStatusElement.classList.remove('premium');
+                upgradeBtn.textContent = 'Upgrade to Premium';
+            }
+        }
+
+        // Show premium modal
+        function showPremiumModal() {
+            const modal = document.getElementById('premiumModal');
+            modal.classList.add('show');
+        }
+
+        // Close premium modal
+        function closePremiumModal() {
+            const modal = document.getElementById('premiumModal');
+            modal.classList.remove('show');
+        }
+
+        // Check if user can add more products
+        async function canAddProduct() {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/premium/check-limit`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.can_add_product;
+                } else {
+                    console.error('Failed to check product limit');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Check limit error:', error);
+                return false;
+            }
+        }
+
+        // Add URL functionality with premium limit check
+        async function addURL() {
+            const input = document.getElementById('urlInput');
+            const discordInput = document.getElementById('discordWebhookInput');
+            const addBtn = document.getElementById('addBtn');
+            const url = input.value.trim();
+            const discordWebhook = discordInput.value.trim();
+
+            if (!url) {
+                showMessage('Please enter a URL', 'error');
+                return;
+            }
+
+            if (!isValidURL(url)) {
+                showMessage('Please enter a valid URL', 'error');
+                return;
+            }
+
+            // Validate Discord webhook if provided
+            if (discordWebhook && !isValidDiscordWebhook(discordWebhook)) {
+                showMessage('Please enter a valid Discord webhook URL', 'error');
+                return;
+            }
+
+            // Check if user can add more products
+            const canAdd = await canAddProduct();
+            if (!canAdd) {
+                showPremiumModal();
+                return;
+            }
+
+            addBtn.disabled = true;
+            addBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: url,
+                        title: extractProductTitle(url),
+                        discord_webhook_url: discordWebhook
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    input.value = '';
+                    discordInput.value = '';
+                    await loadTrackedProducts();
+                    await loadUserSubscriptionInfo(); // Refresh subscription info
+                    showMessage('Product added successfully!', 'success');
+                } else {
+                    if (result.error && result.error.includes('Product limit reached')) {
+                        showPremiumModal();
+                    } else {
+                        throw new Error(result.error || 'Failed to add product');
+                    }
+                }
+            } catch (error) {
+                console.error('Add URL error:', error);
+                showMessage(error.message, 'error');
+            } finally {
+                addBtn.disabled = false;
+                addBtn.innerHTML = '<i class="fas fa-plus"></i> Add URL';
+            }
+        }
+
+        async function removeURL(id) {
+            if (!confirm('Are you sure you want to stop tracking this product?')) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    await loadTrackedProducts();
+                    await loadUserSubscriptionInfo(); // Refresh subscription info
+                    if (selectedProductId === id) {
+                        cancelSettings();
+                    }
+                    showMessage('Product removed successfully!', 'success');
+                } else {
+                    throw new Error(result.error || 'Failed to remove product');
+                }
+            } catch (error) {
+                console.error('Remove URL error:', error);
+                showMessage(error.message, 'error');
+            }
+        }
+
+        function selectURL(id) {
+            // Deselect previous
+            document.querySelectorAll('.url-item').forEach(item => {
+                item.classList.remove('selected');
+                const editBtn = item.querySelector('.edit-btn');
+                if (editBtn) editBtn.classList.remove('active');
+            });
+
+            // Select new
+            const urlItem = document.querySelector(`[data-id="${id}"]`);
+            if (urlItem) {
+                urlItem.classList.add('selected');
+                const editBtn = urlItem.querySelector('.edit-btn');
+                if (editBtn) editBtn.classList.add('active');
+            }
+
+            selectedProductId = id;
+            showPriceSettings(id);
+        }
+
+        function showPriceSettings(id) {
+            const product = trackedProducts.find(item => item.id === id);
+            if (!product) return;
+
+            const settingsPanel = document.getElementById('priceSettings');
+            const settingsUrl = document.getElementById('settingsUrl');
+            const minPriceInput = document.getElementById('minPrice');
+            const maxPriceInput = document.getElementById('maxPrice');
+            const discordWebhookInput = document.getElementById('productDiscordWebhook');
+
+            settingsUrl.textContent = product.url;
+            minPriceInput.value = product.min_price_alert || '';
+            maxPriceInput.value = product.max_price_alert || '';
+            discordWebhookInput.value = product.discord_webhook_url || '';
+
+            settingsPanel.classList.add('show');
+            settingsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelSettings() {
+            const settingsPanel = document.getElementById('priceSettings');
+            settingsPanel.classList.remove('show');
+            
+            document.querySelectorAll('.url-item').forEach(item => {
+                item.classList.remove('selected');
+                const editBtn = item.querySelector('.edit-btn');
+                if (editBtn) editBtn.classList.remove('active');
+            });
+            
+            selectedProductId = null;
+        }
+
+        async function saveSettings() {
+            if (!selectedProductId) return;
+
+            const minPrice = parseFloat(document.getElementById('minPrice').value) || null;
+            const maxPrice = parseFloat(document.getElementById('maxPrice').value) || null;
+            const discordWebhook = document.getElementById('productDiscordWebhook').value.trim();
+
+            if (minPrice && maxPrice && minPrice >= maxPrice) {
+                showMessage('Minimum price must be less than maximum price', 'error');
+                return;
+            }
+
+            if (discordWebhook && !isValidDiscordWebhook(discordWebhook)) {
+                showMessage('Please enter a valid Discord webhook URL', 'error');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/products/${selectedProductId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        min_price_alert: minPrice,
+                        max_price_alert: maxPrice,
+                        discord_webhook_url: discordWebhook
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    await loadTrackedProducts();
+                    cancelSettings();
+                    showMessage('Product settings saved successfully!', 'success');
+                } else {
+                    throw new Error(result.error || 'Failed to save settings');
+                }
+            } catch (error) {
+                console.error('Save settings error:', error);
+                showMessage(error.message, 'error');
+            }
+        }
+
+        async function testProductWebhook() {
+            const discordWebhook = document.getElementById('productDiscordWebhook').value.trim();
+            
+            if (!discordWebhook) {
+                showMessage('Please enter a Discord webhook URL first', 'error');
+                return;
+            }
+
+            if (!isValidDiscordWebhook(discordWebhook)) {
+                showMessage('Please enter a valid Discord webhook URL', 'error');
+                return;
+            }
+
+            try {
+                const product = trackedProducts.find(p => p.id === selectedProductId);
+                const testMessage = {
+                    embeds: [{
+                        title: "🧪 StockWatch Product Test Notification",
+                        description: `Test notification for **${product ? product.title : 'Your Product'}**\n\nThis webhook is working correctly! You'll receive stock alerts like this for this specific product.`,
+                        color: 3447003, // Blue color
+                        timestamp: new Date().toISOString(),
+                        footer: {
+                            text: "StockWatch - Product Alert"
+                        },
+                        fields: product ? [{
+                            name: "Product URL",
+                            value: product.url.length > 100 ? product.url.substring(0, 100) + '...' : product.url,
+                            inline: false
+                        }] : []
+                    }]
+                };
+
+                const response = await fetch(discordWebhook, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testMessage)
+                });
+
+                if (response.ok) {
+                    showMessage('Test message sent to Discord successfully!', 'success');
+                } else {
+                    throw new Error('Failed to send test message');
+                }
+            } catch (error) {
+                console.error('Webhook test error:', error);
+                showMessage('Failed to send test message. Please check your webhook URL.', 'error');
+            }
+        }
+
+        async function loadTrackedProducts() {
+            const container = document.getElementById('urlContainer');
+            const paginationInfo = document.getElementById('paginationInfo');
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`${API_BASE_URL}/products`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    trackedProducts = data.products || [];
+                    console.log('Loaded products:', trackedProducts);
+                    renderProductList();
+                } else {
+                    throw new Error('Failed to load products');
+                }
+            } catch (error) {
+                console.error('Load products error:', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Failed to Load Products</h3>
+                        <p>There was an error loading your tracked products. Please try refreshing the page.</p>
+                    </div>
+                `;
+                paginationInfo.textContent = 'Error loading products';
+            }
+        }
+
+        function renderProductList() {
+            const container = document.getElementById('urlContainer');
+            const paginationInfo = document.getElementById('paginationInfo');
+            const productCountElement = document.getElementById('productCount');
+
+            // Update product count in sidebar
+            if (productCountElement) {
+                productCountElement.textContent = trackedProducts.length;
+            }
+
+            // Update pagination info
+            paginationInfo.textContent = `Showing ${trackedProducts.length} product${trackedProducts.length !== 1 ? 's' : ''}`;
+
+            if (trackedProducts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Products Yet</h3>
+                        <p>Start monitoring your favorite products by adding their URLs above. We'll track their availability and prices for you.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const urlGrid = document.createElement('div');
+            urlGrid.className = 'url-grid';
+
+            urlGrid.innerHTML = trackedProducts.map((product, index) => `
+                <div class="url-item" data-id="${product.id}">
+                    <div class="url-header">
+                        <div class="url-info">
+                            <div class="url-title">${product.title}</div>
+                            <div class="url-link">${truncateURL(product.url, 60)}</div>
+                            ${product.discord_webhook_url ? `
+                                <div class="url-discord">
+                                    <i class="fab fa-discord"></i>
+                                    Discord alerts enabled
+                                </div>
+                            ` : ''}
+                            <div class="url-status">
+                                <div class="status-dot ${product.status}"></div>
+                                <span>${getStatusText(product.status)}</span>
+                                ${product.last_checked_at ? `• Last checked: ${formatDate(product.last_checked_at)}` : ''}
+                            </div>
+                        </div>
+                        <div class="url-actions">
+                            <button class="edit-btn" onclick="selectURL(${product.id})">Edit Settings</button>
+                            <button class="remove-btn" onclick="removeURL(${product.id})">Remove</button>
+                        </div>
+                    </div>
+                    <div class="url-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${product.current_price ? '$' + product.current_price : 'N/A'}</div>
+                            <div class="stat-label">Current Price</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${product.min_price_alert ? '$' + product.min_price_alert : 'Not Set'}</div>
+                            <div class="stat-label">Min Alert</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${product.max_price_alert ? '$' + product.max_price_alert : 'Not Set'}</div>
+                            <div class="stat-label">Max Alert</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${product.alerts_sent || 0}</div>
+                            <div class="stat-label">Alerts Sent</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = '';
+            container.appendChild(urlGrid);
+        }
+
+        // Utility functions
+        function isValidURL(url) {
+            try {
+                new URL(url);
+                return url.startsWith('http://') || url.startsWith('https://');
+            } catch {
+                return false;
+            }
+        }
+
+        function isValidDiscordWebhook(url) {
+            return url.startsWith('https://discord.com/api/webhooks/') || 
+                   url.startsWith('https://discordapp.com/api/webhooks/');
+        }
+
+        function extractProductTitle(url) {
+            try {
+                const urlObj = new URL(url);
+                const hostname = urlObj.hostname.toLowerCase();
+                
+                if (hostname.includes('amazon')) {
+                    return 'Amazon Product';
+                } else if (hostname.includes('ebay')) {
+                    return 'eBay Item';
+                } else if (hostname.includes('bestbuy')) {
+                    return 'Best Buy Product';
+                } else if (hostname.includes('target')) {
+                    return 'Target Product';
+                } else if (hostname.includes('walmart')) {
+                    return 'Walmart Product';
+                } else {
+                    return 'Product from ' + hostname.replace('www.', '');
+                }
+            } catch {
+                return 'Product';
+            }
+        }
+
+        function truncateURL(url, maxLength) {
+            if (url.length <= maxLength) return url;
+            return url.substring(0, maxLength) + '...';
+        }
+
+        function getStatusText(status) {
+            switch (status) {
+                case 'in-stock': return 'In Stock';
+                case 'out-of-stock': return 'Out of Stock';
+                case 'checking': return 'Checking...';
+                case 'error': return 'Check Failed';
+                default: return 'Unknown';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            
+            return date.toLocaleDateString();
+        }
+
+        function showMessage(text, type) {
+            const messageArea = document.getElementById('messageArea');
+            const messageText = document.getElementById('messageText');
+            
+            messageText.textContent = text;
+            messageArea.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                messageArea.classList.remove('show');
+            }, 5000);
+        }
+
+        // Enter key handler
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addURL();
+        });
+
+        // Close modal on outside click
+        document.getElementById('premiumModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePremiumModal();
+            }
+        });
+    </script>
+</body>
+</html>

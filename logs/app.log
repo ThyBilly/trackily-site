@@ -1,0 +1,153 @@
+2025-06-08 21:47:22 - app - INFO - ============================================================
+2025-06-08 21:47:22 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 21:47:22 - app - INFO - ============================================================
+2025-06-08 21:47:22 - app - INFO - Application Name: app
+2025-06-08 21:47:22 - app - INFO - Environment: development
+2025-06-08 21:47:22 - app - INFO - Debug Mode: True
+2025-06-08 21:47:22 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 21:47:22 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 21:47:22 - app - INFO - Secret Key Set: Yes
+2025-06-08 21:47:22 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 21:47:22 - app - INFO - Startup Time: 2025-06-08 21:47:22
+2025-06-08 21:47:22 - app - INFO - ============================================================
+2025-06-08 21:47:22 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 21:47:23 - app - INFO - Premium blueprint registered successfully
+2025-06-08 21:47:23 - app - INFO - Auth blueprint registered successfully
+2025-06-08 21:47:23 - app - INFO - Password blueprint registered successfully
+2025-06-08 21:47:23 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 21:47:23 - app - INFO - Flask application startup completed successfully
+2025-06-08 21:47:23 - app - INFO - Server ready to accept connections
+2025-06-08 21:47:24 - app - INFO - ============================================================
+2025-06-08 21:47:24 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 21:47:24 - app - INFO - ============================================================
+2025-06-08 21:47:24 - app - INFO - Application Name: app
+2025-06-08 21:47:24 - app - INFO - Environment: development
+2025-06-08 21:47:24 - app - INFO - Debug Mode: True
+2025-06-08 21:47:24 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 21:47:24 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 21:47:24 - app - INFO - Secret Key Set: Yes
+2025-06-08 21:47:24 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 21:47:24 - app - INFO - Startup Time: 2025-06-08 21:47:24
+2025-06-08 21:47:24 - app - INFO - ============================================================
+2025-06-08 21:47:24 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 21:47:24 - app - INFO - Premium blueprint registered successfully
+2025-06-08 21:47:24 - app - INFO - Auth blueprint registered successfully
+2025-06-08 21:47:24 - app - INFO - Password blueprint registered successfully
+2025-06-08 21:47:24 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 21:47:24 - app - INFO - Flask application startup completed successfully
+2025-06-08 21:47:24 - app - INFO - Server ready to accept connections
+2025-06-08 22:06:45 - app - INFO - ============================================================
+2025-06-08 22:06:45 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 22:06:45 - app - INFO - ============================================================
+2025-06-08 22:06:45 - app - INFO - Application Name: app
+2025-06-08 22:06:45 - app - INFO - Environment: development
+2025-06-08 22:06:45 - app - INFO - Debug Mode: True
+2025-06-08 22:06:45 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 22:06:45 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 22:06:45 - app - INFO - Secret Key Set: Yes
+2025-06-08 22:06:45 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 22:06:45 - app - INFO - Startup Time: 2025-06-08 22:06:45
+2025-06-08 22:06:45 - app - INFO - ============================================================
+2025-06-08 22:06:45 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 22:06:46 - app - INFO - Premium blueprint registered successfully
+2025-06-08 22:06:46 - app - INFO - Auth blueprint registered successfully
+2025-06-08 22:06:46 - app - INFO - Password blueprint registered successfully
+2025-06-08 22:06:46 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 22:06:46 - app - INFO - Flask application startup completed successfully
+2025-06-08 22:06:46 - app - INFO - Server ready to accept connections
+2025-06-08 22:06:46 - app - INFO - ============================================================
+2025-06-08 22:06:46 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 22:06:46 - app - INFO - ============================================================
+2025-06-08 22:06:46 - app - INFO - Application Name: app
+2025-06-08 22:06:46 - app - INFO - Environment: development
+2025-06-08 22:06:46 - app - INFO - Debug Mode: True
+2025-06-08 22:06:46 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 22:06:46 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 22:06:46 - app - INFO - Secret Key Set: Yes
+2025-06-08 22:06:46 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 22:06:46 - app - INFO - Startup Time: 2025-06-08 22:06:46
+2025-06-08 22:06:46 - app - INFO - ============================================================
+2025-06-08 22:06:46 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 22:06:47 - app - INFO - Premium blueprint registered successfully
+2025-06-08 22:06:47 - app - INFO - Auth blueprint registered successfully
+2025-06-08 22:06:47 - app - INFO - Password blueprint registered successfully
+2025-06-08 22:06:47 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 22:06:47 - app - INFO - Flask application startup completed successfully
+2025-06-08 22:06:47 - app - INFO - Server ready to accept connections
+2025-06-08 22:06:55 - app - INFO - Home page accessed
+2025-06-08 22:45:47 - app - INFO - ============================================================
+2025-06-08 22:45:47 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 22:45:47 - app - INFO - ============================================================
+2025-06-08 22:45:47 - app - INFO - Application Name: app
+2025-06-08 22:45:47 - app - INFO - Environment: development
+2025-06-08 22:45:47 - app - INFO - Debug Mode: True
+2025-06-08 22:45:47 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 22:45:47 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 22:45:47 - app - INFO - Secret Key Set: Yes
+2025-06-08 22:45:47 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 22:45:47 - app - INFO - Startup Time: 2025-06-08 22:45:47
+2025-06-08 22:45:47 - app - INFO - ============================================================
+2025-06-08 22:45:47 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 22:45:47 - app - INFO - Premium blueprint registered successfully
+2025-06-08 22:45:47 - app - INFO - Auth blueprint registered successfully
+2025-06-08 22:45:47 - app - INFO - Password blueprint registered successfully
+2025-06-08 22:45:47 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 22:45:47 - app - INFO - Flask application startup completed successfully
+2025-06-08 22:45:47 - app - INFO - Server ready to accept connections
+2025-06-08 22:45:48 - app - INFO - ============================================================
+2025-06-08 22:45:48 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-08 22:45:48 - app - INFO - ============================================================
+2025-06-08 22:45:48 - app - INFO - Application Name: app
+2025-06-08 22:45:48 - app - INFO - Environment: development
+2025-06-08 22:45:48 - app - INFO - Debug Mode: True
+2025-06-08 22:45:48 - app - INFO - Config Class: DevelopmentConfig
+2025-06-08 22:45:48 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-08 22:45:48 - app - INFO - Secret Key Set: Yes
+2025-06-08 22:45:48 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-08 22:45:48 - app - INFO - Startup Time: 2025-06-08 22:45:48
+2025-06-08 22:45:48 - app - INFO - ============================================================
+2025-06-08 22:45:48 - app - INFO - Dashboard blueprint registered successfully
+2025-06-08 22:45:49 - app - INFO - Premium blueprint registered successfully
+2025-06-08 22:45:49 - app - INFO - Auth blueprint registered successfully
+2025-06-08 22:45:49 - app - INFO - Password blueprint registered successfully
+2025-06-08 22:45:49 - app - INFO - Stripe blueprint registered successfully
+2025-06-08 22:45:49 - app - INFO - Flask application startup completed successfully
+2025-06-08 22:45:49 - app - INFO - Server ready to accept connections
+2025-06-21 18:29:42 - app - INFO - ============================================================
+2025-06-21 18:29:42 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-21 18:29:42 - app - INFO - ============================================================
+2025-06-21 18:29:42 - app - INFO - Application Name: app
+2025-06-21 18:29:42 - app - INFO - Environment: development
+2025-06-21 18:29:42 - app - INFO - Debug Mode: True
+2025-06-21 18:29:42 - app - INFO - Config Class: DevelopmentConfig
+2025-06-21 18:29:42 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-21 18:29:42 - app - INFO - Secret Key Set: Yes
+2025-06-21 18:29:42 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-21 18:29:42 - app - INFO - Startup Time: 2025-06-21 18:29:42
+2025-06-21 18:29:42 - app - INFO - ============================================================
+2025-06-21 18:29:42 - app - INFO - Dashboard blueprint registered successfully
+2025-06-21 18:29:43 - app - INFO - Premium blueprint registered successfully
+2025-06-21 18:29:43 - app - INFO - Auth blueprint registered successfully
+2025-06-21 18:29:43 - app - INFO - Password blueprint registered successfully
+2025-06-21 18:29:43 - app - INFO - Stripe blueprint registered successfully
+2025-06-21 18:29:43 - app - INFO - Flask application startup completed successfully
+2025-06-21 18:29:43 - app - INFO - Server ready to accept connections
+2025-06-21 18:29:44 - app - INFO - ============================================================
+2025-06-21 18:29:44 - app - INFO - FLASK APPLICATION STARTUP
+2025-06-21 18:29:44 - app - INFO - ============================================================
+2025-06-21 18:29:44 - app - INFO - Application Name: app
+2025-06-21 18:29:44 - app - INFO - Environment: development
+2025-06-21 18:29:44 - app - INFO - Debug Mode: True
+2025-06-21 18:29:44 - app - INFO - Config Class: DevelopmentConfig
+2025-06-21 18:29:44 - app - INFO - Database URI: mysql+pymysql://root:1234@localhost:3306/stockwatch
+2025-06-21 18:29:44 - app - INFO - Secret Key Set: Yes
+2025-06-21 18:29:44 - app - INFO - CORS Origins: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000']
+2025-06-21 18:29:44 - app - INFO - Startup Time: 2025-06-21 18:29:44
+2025-06-21 18:29:44 - app - INFO - ============================================================
+2025-06-21 18:29:44 - app - INFO - Dashboard blueprint registered successfully
+2025-06-21 18:29:45 - app - INFO - Premium blueprint registered successfully
+2025-06-21 18:29:45 - app - INFO - Auth blueprint registered successfully
+2025-06-21 18:29:45 - app - INFO - Password blueprint registered successfully
+2025-06-21 18:29:45 - app - INFO - Stripe blueprint registered successfully
+2025-06-21 18:29:45 - app - INFO - Flask application startup completed successfully
+2025-06-21 18:29:45 - app - INFO - Server ready to accept connections
