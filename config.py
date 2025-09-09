@@ -11,6 +11,16 @@ class Config:
     # Flask Settings
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'your-secret-key-change-in-production'
     
+
+
+    DB_USER = os.environ.get('DB_USER', 'root')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
+    DB_HOST = os.environ.get('DB_HOST', 'localhost')
+    DB_PORT = os.environ.get('DB_PORT', '3306')
+    DB_NAME = os.environ.get('DB_NAME', 'stockwatch')
+
+
+
     # Database connection parameters with local development fallbacks
     DB_HOST = os.environ.get('DB_HOST') or 'localhost'
     DB_PORT = int(os.environ.get('DB_PORT') or 3306)
